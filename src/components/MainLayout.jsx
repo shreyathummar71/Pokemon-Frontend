@@ -1,6 +1,7 @@
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Footer from "./Footer";
 
 const MainLayout = () => {
   const [username, setUsername] = useState("");
@@ -46,6 +47,7 @@ const MainLayout = () => {
           setDetailedPokemons,
         }}
       />
+      <Footer />
     </>
   );
 };

@@ -19,7 +19,7 @@ function Homepage() {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="relative w-full overflow-hidden">
       {/* Full background image */}
 
       <div
