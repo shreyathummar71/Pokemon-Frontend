@@ -1,18 +1,24 @@
 // src/pages/Homepage.js
 import React, { useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { Outlet, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Homepage() {
   // State to store the user's name
-  const { username, setUsername } = useOutletContext();
+  //const { username, setUsername } = useOutletContext();
+  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
   // State to control whether the popup is shown
   const [showPopup, setShowPopup] = useState(true);
 
   // Function to handle form submission
   const handleNameSubmit = (e) => {
     e.preventDefault();
+
     if (username.trim() !== "") {
-      setShowPopup(false); // Hide the popup after submitting the name
+      localStorage.setItem("username", JSON.stringify(username));
+      setShowPopup(false); // Hide the popup after submitting the name#
+      navigate("/home");
     } else {
       alert("Please enter your name."); // Basic validation
     }
@@ -69,6 +75,7 @@ function Homepage() {
           </form>
         </div>
       )}
+      <Outlet />
     </div>
   );
 }

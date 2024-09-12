@@ -9,6 +9,11 @@ const MainLayout = () => {
   const [detailedPokemons, setDetailedPokemons] = useState([]);
 
   useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("username"));
+    setUsername(user);
+  }, []);
+
+  useEffect(() => {
     const getPokemons = async () => {
       const res = await fetch(
         "https://pokeapi.co/api/v2/pokemon/?offset=50&limit=50"
