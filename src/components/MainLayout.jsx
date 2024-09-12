@@ -28,13 +28,13 @@ const MainLayout = () => {
         );
         const details = await Promise.all(detailedPromise);
         setDetailedPokemons(details);
-        console.log(details);
+        //console.log(details);
       };
       getDetailedPokemonData();
     }
   }, [pokemons]);
 
-  console.log(detailedPokemons);
+  //console.log(detailedPokemons);
 
   return (
     <>

@@ -1,11 +1,13 @@
 import PokemonListItem from "./PokemonListItem";
 import { useOutletContext } from "react-router-dom";
 import bg_Poke from "../assets/images/bg_pokeball.png";
+import Sidebar from "./Sidebar";
 
 const AllPokemon = () => {
   const { detailedPokemons } = useOutletContext();
   return (
     <div className="py-10">
+      <Sidebar />
       <img
         src={bg_Poke}
         alt="pokeball_grey"
