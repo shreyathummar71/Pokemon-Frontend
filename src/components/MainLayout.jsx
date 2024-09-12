@@ -1,11 +1,17 @@
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Footer from "./Footer";
 
 const MainLayout = () => {
   const [username, setUsername] = useState("");
   const [pokemons, setPokemons] = useState([]);
   const [detailedPokemons, setDetailedPokemons] = useState([]);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("username"));
+    setUsername(user);
+  }, []);
 
   useEffect(() => {
     const getPokemons = async () => {
@@ -27,13 +33,13 @@ const MainLayout = () => {
         );
         const details = await Promise.all(detailedPromise);
         setDetailedPokemons(details);
-        console.log(details);
+        //console.log(details);
       };
       getDetailedPokemonData();
     }
   }, [pokemons]);
 
-  console.log(detailedPokemons);
+  //console.log(detailedPokemons);
 
   return (
     <>
@@ -46,6 +52,7 @@ const MainLayout = () => {
           setDetailedPokemons,
         }}
       />
+      <Footer />
     </>
   );
 };

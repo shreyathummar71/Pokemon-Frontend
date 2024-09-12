@@ -12,10 +12,12 @@ import AllPokemon from "./components/AllPokemon";
 const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<MainLayout />}>
-        <Route index element={<AllPokemon />} />
+      <>
         <Route path="/" element={<Homepage />} />
-      </Route>
+        <Route path="/home" element={<MainLayout />}>
+          <Route index element={<AllPokemon />} />
+        </Route>
+      </>
     )
   );
 
