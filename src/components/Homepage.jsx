@@ -24,7 +24,7 @@ function Homepage() {
 
       <div
         className={`fixed inset-0 bg-cover bg-center ${
-          !showPopup ? "opacity-0" : "opacity-100"
+          !showPopup ? "hidden" : "block"
         } transition-opacity duration-300`}
         style={{ backgroundImage: `url('./src/assets/images/home-bg.jpg')` }}
       ></div>
@@ -35,19 +35,31 @@ function Homepage() {
         <div className="flex items-center justify-center fixed inset-0 bg-opacity-75 z-10">
           <form
             onSubmit={handleNameSubmit}
-            className="bg-white p-8 rounded shadow-lg text-center"
+            className="bg-white p-8 relative rounded shadow-lg text-center"
           >
-            <h2 className="text-2xl w-3/4 text-center font-semibold mb-4">
-              Welcome to your epic Pokemon Battlefield!
+            <div className="absolute left-1/2 transform -translate-x-1/2 -top-10">
+              <img
+                src="./src/assets/images/pokeball.png"
+                alt="Pokeball"
+                className="w-16 h-16"
+              />
+            </div>
+            <h2 className="text-2xl text-black text-center font-semibold">
+              Welcome to your epic{" "}
+              <span className="float-start w-full mb-4">
+                Pokemon Battlefield!
+              </span>
             </h2>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Your Name"
-              className="w-full px-4 py-2 border border-gray-300 rounded mb-4 focus:outline-none focus:border-blue-500"
-              required
-            />
+            <div className="m-4">
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Your Name"
+                className="w-full text-black px-4 py-2 border border-gray-300 bg-[#fff] rounded focus:outline-none focus:border-blue-500"
+                required
+              />
+            </div>
             <button
               type="submit"
               className="px-6 py-2 bg-green-500 text-white font-semibold rounded hover:bg-green-600 transition"
@@ -55,15 +67,6 @@ function Homepage() {
               Submit
             </button>
           </form>
-        </div>
-      )}
-
-      {/* Main content of the website, displayed after name submission */}
-      {!showPopup && (
-        <div className="relative z-5 text-center text-white p-8">
-          <h1 className="text-4xl font-bold">Welcome, {username}!</h1>
-          <p className="mt-4">This is your Pokémon adventure!</p>
-          {/* Add other components or website content here */}
         </div>
       )}
     </div>
