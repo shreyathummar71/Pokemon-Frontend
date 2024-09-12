@@ -9,6 +9,13 @@ const MainLayout = () => {
   const [pokemons, setPokemons] = useState([]);
   const [detailedPokemons, setDetailedPokemons] = useState([]);
   const [selectedType, setSelectedType] = useState("");
+  const [playerPokemon, setPlayerPokemon] = useState({});
+
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+
+  // This function will be used to toggle the header's visibility
+  const hideHeader = () => setIsHeaderVisible(false);
+  const showHeader = () => setIsHeaderVisible(true);
 
   const toggleDrawer = () => setIsOpen(!isOpen);
   const closeDrawer = () => setIsOpen(false);
@@ -45,11 +52,17 @@ const MainLayout = () => {
     }
   }, [pokemons]);
 
-  //console.log(detailedPokemons);
+  console.log("Player picked:", playerPokemon);
 
   return (
     <div className="min-h-screen">
-      <Header username={username} isOpen={isOpen} toggleDrawer={toggleDrawer} />
+      {isHeaderVisible && (
+        <Header
+          username={username}
+          isOpen={isOpen}
+          toggleDrawer={toggleDrawer}
+        />
+      )}
       <Outlet
         context={{
           username,
@@ -58,6 +71,10 @@ const MainLayout = () => {
           setDetailedPokemons,
           selectedType,
           setSelectedType,
+          playerPokemon,
+          setPlayerPokemon,
+          hideHeader,
+          showHeader,
         }}
       />
       <Sidebar

@@ -1,4 +1,6 @@
-const Header = ({ username, toggleDrawer, isOpen }) => {
+import logo from "../assets/images/pokemon_logo.png";
+import menuItem from "../assets/images/menu_icon.png";
+const Header = ({ username, toggleDrawer, isOpen, showHeader }) => {
   return (
     <>
       <div className="bg-white flex items-center justify-between p-5">
@@ -9,19 +11,11 @@ const Header = ({ username, toggleDrawer, isOpen }) => {
             aria-controls="drawer-navigation"
             aria-expanded={isOpen}
           >
-            <img
-              src="./src/assets/images/menu_icon.png"
-              alt="Pokeball"
-              className="w-24 h-auto"
-            />
+            <img src={menuItem} alt="Pokeball" className="w-24 h-auto" />
           </button>
         </div>
         <div className="text-center">
-          <img
-            src="./src/assets/images/pokemon_logo.png"
-            alt="Pokeball"
-            className="w-2/4 h-auto"
-          />
+          <img src={logo} alt="Pokeball" className="w-2/4 h-auto" />
         </div>
         <div className="float-right w-auto text-black">
           Hello, trainer <span className="font-bold">{username}</span>
