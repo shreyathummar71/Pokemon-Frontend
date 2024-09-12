@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useOutletContext, useNavigate } from "react-router-dom";
 
 function PokemonCard({ pokemon, onClose }) {
+  const { setPlayerPokemon } = useOutletContext();
   // State to toggle between general info and base stats
   const [activeTab, setActiveTab] = useState("about"); // Use 'about' as the default active tab
 
@@ -51,6 +53,12 @@ function PokemonCard({ pokemon, onClose }) {
 
   const bgColorClass = bgColorMap[firstType];
 
+  const navigate = useNavigate();
+  const pokemonSelection = () => {
+    setPlayerPokemon(pokemon);
+    navigate("/home/face-off");
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
       <div
@@ -73,7 +81,7 @@ function PokemonCard({ pokemon, onClose }) {
             {pokemon.types.map((type) => (
               <span
                 key={type.type.name}
-                className="mr-2 inline-block bg-gray-200 bg-opacity-50 text-black px-2 py-1 rounded text-sm"
+                className="mr-2 inline-block bg-gray-200 bg-opacity-50 text-black px-2 py-1 rounded text-sm capitalize"
               >
                 {type.type.name}
               </span>
@@ -185,7 +193,10 @@ function PokemonCard({ pokemon, onClose }) {
             </div>
           )}
           <div className="float-start w-full text-center mt-6">
-            <button className="px-6 py-2 bg-black text-white font-semibold rounded-full hover:bg-red-600">
+            <button
+              className="px-6 py-2 bg-black text-white font-semibold rounded-full hover:bg-red-600"
+              onClick={pokemonSelection}
+            >
               Select
             </button>
           </div>
