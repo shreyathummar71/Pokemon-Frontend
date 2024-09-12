@@ -1,17 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 function PokemonCard({ pokemon, onClose }) {
   // State to toggle between general info and base stats
   const [activeTab, setActiveTab] = useState("about"); // Use 'about' as the default active tab
 
+  // Reference to the modal content to detect clicks outside
+  const modalRef = useRef(null);
+
+  // Effect to handle clicks outside of the modal
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if the click is outside the modal content
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose(); // Call the close function when clicking outside
+      }
+    };
+
+    // Add event listener to the document to capture clicks
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup event listener when component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
-      onClick={onClose}
-    >
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
       <div
+        ref={modalRef} // Reference to the modal content
         className="bg-[#FFDC62] relative rounded-xl shadow-lg w-5/12 max-w-sm"
-        onClick={(e) => e.stopPropagation()}
       >
         <div className="absolute left-1/2 transform -translate-x-1/2 -top-10">
           <img
@@ -34,7 +52,7 @@ function PokemonCard({ pokemon, onClose }) {
               </span>
             ))}
           </div>
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center ">
             <img
               src={pokemon.sprites.other.dream_world.front_default}
               alt={pokemon.name}

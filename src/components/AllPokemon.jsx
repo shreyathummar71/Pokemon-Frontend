@@ -18,7 +18,7 @@ const AllPokemon = () => {
       <img
         src={bg_Poke}
         alt="pokeball_grey"
-        className="fixed inset-fixed -bottom-36 -right-36 overflow-hidden z-0 "
+        className="fixed inset-fixed -bottom-36 -right-36 overflow-hidden"
       />
       <div className="text-center my-5">
         <h1 className="text-2xl font-bold">
