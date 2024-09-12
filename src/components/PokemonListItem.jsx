@@ -1,5 +1,7 @@
+import React, { useState } from "react";
+import PokemonCard from "./PokemonCard";
+
 const PokemonListItem = ({ pokemon }) => {
-  //console.log(pokemon.types[0].type.name);
   const firstType = pokemon.types[0].type.name;
   const bgColorMap = {
     normal: "#BE768A",
@@ -26,15 +28,27 @@ const PokemonListItem = ({ pokemon }) => {
 
   const bgColorClass = bgColorMap[firstType];
 
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
+
+  const handleOpenModal = (pokemon) => {
+    setSelectedPokemon(pokemon);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedPokemon(null);
+  };
+
   return (
     <div
+      onClick={() => handleOpenModal(pokemon)} // Added click handler to open modal
       style={{ backgroundColor: bgColorClass }}
-      className="relative pt-2 px-4 w-56 h-40 rounded-xl overflow-hidden shadow-md"
+      className="relative pt-2 px-4 w-56 h-40 rounded-xl overflow-hidden shadow-md cursor-pointer" // Added cursor-pointer class for better UX
     >
-      <div id="details" className="z-10 flex flex-col">
+      <div id="details" className="flex flex-col">
         <h3 className="mb-3 capitalize font-bold text-xl text-white">
           {pokemon.name}
         </h3>
+
         <div id="types" className="flex flex-col gap-3">
           {pokemon.types.map((type) => (
             <span
@@ -44,16 +58,19 @@ const PokemonListItem = ({ pokemon }) => {
               {type.type.name}
             </span>
           ))}
+          {selectedPokemon && (
+            <PokemonCard pokemon={selectedPokemon} onClose={handleCloseModal} />
+          )}
         </div>
       </div>
-      <div className="absolute bottom-0 -right-2">
+      <div className="absolute bottom-9 right-5 left-auto top-auto">
         <img
-          src={pokemon.sprites.front_shiny}
+          src={pokemon.sprites.other.dream_world.front_default}
           alt={pokemon.name}
-          className="h-36 z-20"
+          className="w-20 h-auto"
         />
       </div>
-      <div className="absolute inset-20 w-72 h-20 bg-white transform -rotate-12 -translate-y-5 -translate-x-24 z-0 opacity-15"></div>
+      <div className="absolute inset-20 w-72 h-20 bg-white transform -rotate-12 -translate-y-5 -translate-x-24  opacity-15"></div>
     </div>
   );
 };

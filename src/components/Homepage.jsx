@@ -38,7 +38,7 @@ function Homepage() {
       {/* <img src="./assets/images/home-bg"></img> */}
       {/* Popup for entering the username */}
       {showPopup && (
-        <div className="flex items-center justify-center fixed inset-0 bg-opacity-75 z-10">
+        <div className="flex items-center justify-center fixed inset-0 bg-opacity-75">
           <form
             onSubmit={handleNameSubmit}
             className="bg-white p-8 relative rounded shadow-lg text-center"
