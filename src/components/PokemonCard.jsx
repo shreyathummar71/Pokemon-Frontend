@@ -25,11 +25,38 @@ function PokemonCard({ pokemon, onClose }) {
     };
   }, [onClose]);
 
+  const firstType = pokemon.types[0].type.name;
+  const bgColorMap = {
+    normal: "#BE768A",
+    fighting: "#FE6E44",
+    flying: "#94B2C7",
+    poison: "#A971F0",
+    ground: "#D08831 ",
+    rock: "#A43E19",
+    bug: "#45A043",
+    ghost: "#906791",
+    steel: "#1DB07F",
+    fire: "#FF5C5C",
+    water: "#6DCBFF",
+    grass: "#06DA81",
+    electric: "#FFDC62",
+    psychic: "#F334C9",
+    ice: "#ADE3FB",
+    dragon: "#62CAD9",
+    dark: "#595978",
+    fairy: "#FA5295",
+    stellar: "#33336B",
+    unknown: "#707070",
+  };
+
+  const bgColorClass = bgColorMap[firstType];
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
       <div
         ref={modalRef} // Reference to the modal content
-        className="bg-[#FFDC62] relative rounded-xl shadow-lg w-5/12 max-w-sm"
+        className="relative rounded-xl shadow-lg w-5/12 max-w-sm"
+        style={{ backgroundColor: bgColorClass }}
       >
         <div className="absolute left-1/2 transform -translate-x-1/2 -top-10">
           <img

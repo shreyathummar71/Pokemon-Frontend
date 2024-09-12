@@ -1,12 +1,18 @@
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Footer from "./Footer";
+
+import Sidebar from "./Sidebar";
 
 const MainLayout = () => {
   const [username, setUsername] = useState("");
   const [pokemons, setPokemons] = useState([]);
   const [detailedPokemons, setDetailedPokemons] = useState([]);
+  const [selectedType, setSelectedType] = useState("");
+
+  const toggleDrawer = () => setIsOpen(!isOpen);
+  const closeDrawer = () => setIsOpen(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("username"));
@@ -42,18 +48,24 @@ const MainLayout = () => {
   //console.log(detailedPokemons);
 
   return (
-    <>
-      <Header username={username} />
+    <div className="min-h-screen">
+      <Header username={username} isOpen={isOpen} toggleDrawer={toggleDrawer} />
       <Outlet
         context={{
           username,
           setUsername,
           detailedPokemons,
           setDetailedPokemons,
+          selectedType,
+          setSelectedType,
         }}
       />
-      <Footer />
-    </>
+      <Sidebar
+        isOpen={isOpen}
+        closeDrawer={closeDrawer}
+        onTypeSelect={setSelectedType}
+      />
+    </div>
   );
 };
 
