@@ -1,13 +1,14 @@
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Footer from "./Footer";
+
 import Sidebar from "./Sidebar";
 
 const MainLayout = () => {
   const [username, setUsername] = useState("");
   const [pokemons, setPokemons] = useState([]);
   const [detailedPokemons, setDetailedPokemons] = useState([]);
+  const [selectedType, setSelectedType] = useState("");
 
   const toggleDrawer = () => setIsOpen(!isOpen);
   const closeDrawer = () => setIsOpen(false);
@@ -47,7 +48,7 @@ const MainLayout = () => {
   //console.log(detailedPokemons);
 
   return (
-    <>
+    <div className="min-h-screen">
       <Header username={username} isOpen={isOpen} toggleDrawer={toggleDrawer} />
       <Outlet
         context={{
@@ -55,11 +56,16 @@ const MainLayout = () => {
           setUsername,
           detailedPokemons,
           setDetailedPokemons,
+          selectedType,
+          setSelectedType,
         }}
       />
-      <Sidebar isOpen={isOpen} closeDrawer={closeDrawer} />
-      <Footer />
-    </>
+      <Sidebar
+        isOpen={isOpen}
+        closeDrawer={closeDrawer}
+        onTypeSelect={setSelectedType}
+      />
+    </div>
   );
 };
 

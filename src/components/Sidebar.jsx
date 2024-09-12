@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const Sidebar = ({ isOpen, closeDrawer }) => {
+const Sidebar = ({ isOpen, closeDrawer, onTypeSelect }) => {
   const [types, setTypes] = useState([]);
 
   useEffect(() => {
@@ -63,10 +63,17 @@ const Sidebar = ({ isOpen, closeDrawer }) => {
           <span className="font-semibold text-black">type</span>
         </h2>
         <div className="grid grid-cols-2 gap-6 pt-5 pr-6 pr-3">
+          <span
+            className="bg-red-100 py-2 px-4 text-gray-500 rounded-full text-center hover:bg-red-400 hover:text-white"
+            onClick={() => onTypeSelect(null)}
+          >
+            All
+          </span>
           {types.map((type) => (
             <span
               className="bg-red-100 py-2 px-4 text-gray-500 rounded-full text-center hover:bg-red-400 hover:text-white"
               key={type}
+              onClick={() => onTypeSelect(type)}
             >
               {type}
             </span>
