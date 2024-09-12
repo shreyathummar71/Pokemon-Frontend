@@ -1,7 +1,7 @@
 const Header = ({ username }) => {
   return (
     <>
-      <div className="bg-white flex items-center justify-between p-5 shadow-lg">
+      <div className="bg-white flex items-center justify-between p-5">
         <div className="float-start w-auto">
           <img
             src="./src/assets/images/menu_icon.png"
@@ -9,7 +9,7 @@ const Header = ({ username }) => {
             className="w-24 h-auto"
           />
         </div>
-        <div className="justify-self-center">
+        <div className="text-center">
           <img
             src="./src/assets/images/pokemon_logo.png"
             alt="Pokeball"
