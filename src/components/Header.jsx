@@ -1,8 +1,13 @@
+import { Link } from "react-router-dom";
+
 const Header = ({ username, toggleDrawer, isOpen }) => {
   return (
-    <>
-      <div className="bg-white flex items-center justify-between p-5">
-        <div className="float-start w-auto">
+    <div
+      className="relative z-10 bg-white p-5 w-full"
+      style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}
+    >
+      <div className="flex items-center justify-between">
+        <div className="w-auto">
           <button
             type="button"
             onClick={toggleDrawer}
@@ -11,23 +16,35 @@ const Header = ({ username, toggleDrawer, isOpen }) => {
           >
             <img
               src="./src/assets/images/menu_icon.png"
-              alt="Pokeball"
+              alt="Menu Icon"
               className="w-24 h-auto"
             />
           </button>
         </div>
-        <div className="text-center">
-          <img
-            src="./src/assets/images/pokemon_logo.png"
-            alt="Pokeball"
-            className="w-2/4 h-auto"
-          />
+        <div className="flex-grow flex justify-center">
+          <Link to="/home">
+            <img
+              src="./src/assets/images/pokemon_logo.png"
+              alt="Pokemon Logo"
+              className="w-2/4 h-auto"
+            />
+          </Link>
         </div>
-        <div className="float-right w-auto text-black">
-          Hello, trainer <span className="font-bold">{username}</span>
+        <div className="w-auto text-black text-right">
+          <div>
+            Hello, trainer <span className="font-bold">{username}</span>
+          </div>
+          <div className="mt-2">
+            <Link
+              to="/home/leaderboard"
+              className="bg-red-600 text-white p-2 pl-5 pr-5 rounded-full inline-block hover:bg-black"
+            >
+              Score
+            </Link>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
