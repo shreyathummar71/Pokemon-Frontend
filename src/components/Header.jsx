@@ -1,13 +1,20 @@
-const Header = ({ username }) => {
+const Header = ({ username, toggleDrawer, isOpen }) => {
   return (
     <>
       <div className="bg-white flex items-center justify-between p-5">
         <div className="float-start w-auto">
-          <img
-            src="./src/assets/images/menu_icon.png"
-            alt="Pokeball"
-            className="w-24 h-auto"
-          />
+          <button
+            type="button"
+            onClick={toggleDrawer}
+            aria-controls="drawer-navigation"
+            aria-expanded={isOpen}
+          >
+            <img
+              src="./src/assets/images/menu_icon.png"
+              alt="Pokeball"
+              className="w-24 h-auto"
+            />
+          </button>
         </div>
         <div className="text-center">
           <img

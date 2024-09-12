@@ -7,7 +7,6 @@ const AllPokemon = () => {
   const { detailedPokemons } = useOutletContext();
   return (
     <div className="py-10">
-      <Sidebar />
       <img
         src={bg_Poke}
         alt="pokeball_grey"
