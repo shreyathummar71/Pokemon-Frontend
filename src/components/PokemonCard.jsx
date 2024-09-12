@@ -185,7 +185,7 @@ function PokemonCard({ pokemon, onClose }) {
             </div>
           )}
           <div className="float-start w-full text-center mt-6">
-            <button className="px-6 py-2 bg-black text-white font-semibold rounded-full hover:bg-red-600">
+            <button className="px-6 py-2 bg-black text-white font-semibold rounded-full hover:bg-red-600 transition">
               Select
             </button>
           </div>
