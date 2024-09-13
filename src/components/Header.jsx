@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Header = ({ username, toggleDrawer, isOpen }) => {
   return (
     <div
-      className="relative z-10 bg-white p-5 w-full"
+      className="sticky top-0 z-10 bg-white p-5 w-full"
       style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}
     >
       <div className="flex items-center justify-between">
@@ -37,7 +37,7 @@ const Header = ({ username, toggleDrawer, isOpen }) => {
           <div className="mt-2">
             <Link
               to="/home/leaderboard"
-              className="bg-red-600 text-white p-2 pl-5 pr-5 rounded-full inline-block hover:bg-black"
+              className="bg-red-600 text-white p-2 pl-5 pr-5 rounded-full inline-block hover:bg-black transition"
             >
               Score
             </Link>
