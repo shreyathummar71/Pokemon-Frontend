@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useOutletContext, useNavigate } from "react-router-dom";
 
 function PokemonCard({ pokemon, onClose }) {
+  const { setPlayerPokemon } = useOutletContext();
+  const audio = new Audio(pokemon.cries.latest);
+  console.log(audio);
   // State to toggle between general info and base stats
   const [activeTab, setActiveTab] = useState("about"); // Use 'about' as the default active tab
 
@@ -51,6 +55,13 @@ function PokemonCard({ pokemon, onClose }) {
 
   const bgColorClass = bgColorMap[firstType];
 
+  const navigate = useNavigate();
+  const pokemonSelection = () => {
+    audio.play();
+    setPlayerPokemon(pokemon);
+    navigate("/home/face-off");
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
       <div
@@ -58,7 +69,7 @@ function PokemonCard({ pokemon, onClose }) {
         className="relative rounded-xl shadow-lg w-5/12 max-w-sm"
         style={{ backgroundColor: bgColorClass }}
       >
-        <div className="absolute left-1/2 transform -translate-x-1/2 -top-10">
+        <div className="absolute left-1/2 transform -translate-x-1/2 -top-8">
           <img
             src="./src/assets/images/pokeball.png"
             alt="Pokeball"
@@ -73,7 +84,7 @@ function PokemonCard({ pokemon, onClose }) {
             {pokemon.types.map((type) => (
               <span
                 key={type.type.name}
-                className="mr-2 inline-block bg-gray-200 bg-opacity-50 text-black px-2 py-1 rounded text-sm"
+                className="mr-2 inline-block bg-gray-200 bg-opacity-50 text-black px-2 py-1 rounded text-sm capitalize"
               >
                 {type.type.name}
               </span>
@@ -81,7 +92,11 @@ function PokemonCard({ pokemon, onClose }) {
           </div>
           <div className="flex items-center justify-center ">
             <img
-              src={pokemon.sprites.other.dream_world.front_default}
+              src={
+                pokemon.sprites.other.dream_world.front_default
+                  ? pokemon.sprites.other.dream_world.front_default
+                  : pokemon.sprites.front_default
+              }
               alt={pokemon.name}
               className="-mb-10 relative z-10"
             />
@@ -185,7 +200,10 @@ function PokemonCard({ pokemon, onClose }) {
             </div>
           )}
           <div className="float-start w-full text-center mt-6">
-            <button className="px-6 py-2 bg-black text-white font-semibold rounded-full hover:bg-red-600 transition">
+            <button
+              className="px-6 py-2 bg-black text-white font-semibold rounded-full hover:bg-red-600"
+              onClick={pokemonSelection}
+            >
               Select
             </button>
           </div>

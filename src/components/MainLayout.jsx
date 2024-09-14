@@ -8,7 +8,17 @@ const MainLayout = () => {
   const [username, setUsername] = useState("");
   const [pokemons, setPokemons] = useState([]);
   const [detailedPokemons, setDetailedPokemons] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
+
   const [selectedType, setSelectedType] = useState("");
+  const [playerPokemon, setPlayerPokemon] = useState({});
+  const [opponentPokemon, setOpponentPokemon] = useState(null);
+
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+
+  // This function will be used to toggle the header's visibility
+  const hideHeader = () => setIsHeaderVisible(false);
+  const showHeader = () => setIsHeaderVisible(true);
 
   const toggleDrawer = () => setIsOpen(!isOpen);
   const closeDrawer = () => setIsOpen(false);
@@ -20,15 +30,21 @@ const MainLayout = () => {
   }, []);
 
   useEffect(() => {
-    const getPokemons = async () => {
-      const res = await fetch(
-        "https://pokeapi.co/api/v2/pokemon/?offset=500&limit=500"
-      );
-      const data = await res.json();
-      setPokemons(data.results);
-    };
+    try {
+      const getPokemons = async () => {
+        const res = await fetch(
+          "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
+        );
+        const data = await res.json();
+        setPokemons(data.results);
+      };
 
-    getPokemons();
+      getPokemons();
+    } catch (error) {
+      console.error("Error fetching Pokémon data:", error);
+    } finally {
+      setLoading(false); // Data fetching is done
+    }
   }, []);
 
   useEffect(() => {
@@ -45,11 +61,24 @@ const MainLayout = () => {
     }
   }, [pokemons]);
 
-  //console.log(detailedPokemons);
+  //console.log("Player picked:", playerPokemon);
+
+  useEffect(() => {
+    const storedPlayerPokemon = localStorage.getItem("playerPokemon");
+    if (storedPlayerPokemon) {
+      setPlayerPokemon(JSON.parse(storedPlayerPokemon));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (playerPokemon && Object.keys(playerPokemon).length > 0) {
+      localStorage.setItem("playerPokemon", JSON.stringify(playerPokemon));
+    }
+  }, [playerPokemon]);
 
   return (
     <div className="min-h-screen">
-      <Header username={username} isOpen={isOpen} toggleDrawer={toggleDrawer} />
+      {isHeaderVisible && <Header username={username} />}
       <Outlet
         context={{
           username,
@@ -58,6 +87,15 @@ const MainLayout = () => {
           setDetailedPokemons,
           selectedType,
           setSelectedType,
+          playerPokemon,
+          setPlayerPokemon,
+          hideHeader,
+          showHeader,
+          opponentPokemon,
+          setOpponentPokemon,
+          isOpen,
+          toggleDrawer,
+          loading,
         }}
       />
       <Sidebar

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import bg_Poke from "../assets/images/bg_pokeball.png";
 
 const LeaderBoard = () => {
   const [leaderboardData, setLeaderboardData] = useState([]);
@@ -59,40 +61,54 @@ const LeaderBoard = () => {
   }
 
   return (
-    <div className="p-10 float-start w-full">
-      <table className="bg-[#FFECEC] rounded-lg overflow-hidden w-full text-center border-separate border-spacing-0">
-        <thead className="bg-black text-white">
-          <tr>
-            <th className="p-4">Username</th>
-            <th className="p-4">Battles</th>
-            <th className="p-4">Won</th>
-            <th className="p-4">Lost</th>
-            <th className="p-4">Rank</th>
-          </tr>
-        </thead>
-        <tbody>
-          {leaderboardData.map((user) => (
-            <tr key={user._id}>
-              <td className="p-4 text-black border-b-4 border-white">
-                {user.username}
-              </td>
-              <td className="p-4 text-black border-b-4 border-white">
-                {user.battles}
-              </td>
-              <td className="p-4 text-black border-b-4 border-white">
-                {user.won}
-              </td>
-              <td className="p-4 text-black border-b-4 border-white">
-                {user.lost}
-              </td>
-              <td className="p-4 text-black font-semibold border-b-4 border-white">
-                {user.rank}
-              </td>
+    <>
+      <img
+        src={bg_Poke}
+        alt="pokeball_grey"
+        className="fixed inset -bottom-36 -right-36 overflow-hidden z-0"
+      />
+      <div className="p-10 float-start w-full z-20 relative">
+        <table className="bg-[#FFECEC]/60 rounded-lg overflow-hidden w-full text-center border-separate border-spacing-0">
+          <thead className="bg-black text-white">
+            <tr>
+              <th className="p-4">Username</th>
+              <th className="p-4">Battles</th>
+              <th className="p-4">Won</th>
+              <th className="p-4">Lost</th>
+              <th className="p-4">Rank</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {leaderboardData.map((user) => (
+              <tr key={user._id}>
+                <td className="p-4 text-black border-b-4 border-white">
+                  {user.username}
+                </td>
+                <td className="p-4 text-black border-b-4 border-white">
+                  {user.battles}
+                </td>
+                <td className="p-4 text-black border-b-4 border-white">
+                  {user.won}
+                </td>
+                <td className="p-4 text-black border-b-4 border-white">
+                  {user.lost}
+                </td>
+                <td className="p-4 text-black font-semibold border-b-4 border-white">
+                  {user.rank}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="flex justify-center mt-8">
+          <Link to="/home">
+            <button className="text-center text-xl bg-red-600 hover:bg-black hover:shadow-lg text-white p-3 rounded-3xl">
+              Play again!
+            </button>
+          </Link>
+        </div>
+      </div>
+    </>
   );
 };
 
