@@ -8,6 +8,15 @@ const AllPokemon = () => {
   const { detailedPokemons, selectedType, isOpen, toggleDrawer } =
     useOutletContext();
 
+  //SEARCH FUNCTION
+  const [searchedPokemon, setSearchedPokemon] = useState("");
+  const searchedPokemons = detailedPokemons.filter((pokemon) =>
+    searchedPokemon
+      ? pokemon.name.toLowerCase().includes(searchedPokemon.toLowerCase())
+      : true
+  );
+  console.log(searchedPokemons);
+
   // State to manage how many Pokémon to display
   const [displayCount, setDisplayCount] = useState(30);
 
@@ -37,6 +46,17 @@ const AllPokemon = () => {
       >
         <img src={menuItem} alt="Pokeball" className="w-24 h-auto" />
       </button>
+      <div className="form-control">
+        <input
+          type="text"
+          placeholder="Search"
+          className="input input-bordered w-52 rounded-full bg-red-100 absolute right-10 top-50"
+          value={searchedPokemon}
+          onChange={(e) => {
+            setSearchedPokemon(e.target.value);
+          }}
+        />
+      </div>
       <img
         src={bg_Poke}
         alt="pokeball_grey"
@@ -48,9 +68,13 @@ const AllPokemon = () => {
         </h1>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 my-10 mx-32 place-items-center z-10">
-        {pokemonsToDisplay.map((pokemon) => (
-          <PokemonListItem key={pokemon.id} pokemon={pokemon} />
-        ))}
+        {searchedPokemon
+          ? searchedPokemons.map((pokemon) => (
+              <PokemonListItem key={pokemon.id} pokemon={pokemon} />
+            ))
+          : pokemonsToDisplay.map((pokemon) => (
+              <PokemonListItem key={pokemon.id} pokemon={pokemon} />
+            ))}
       </div>
       {/* Load More Button */}
       {displayCount < filteredPokemons.length && (
@@ -63,6 +87,7 @@ const AllPokemon = () => {
           </button>
         </div>
       )}
+      <button className="">Top</button>
     </div>
   );
 };
