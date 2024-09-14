@@ -2,9 +2,11 @@ import PokemonListItem from "./PokemonListItem";
 import { useOutletContext } from "react-router-dom";
 import bg_Poke from "../assets/images/bg_pokeball.png";
 import { useState } from "react";
+import menuItem from "../assets/images/menu_icon.png";
 
 const AllPokemon = () => {
-  const { detailedPokemons, selectedType } = useOutletContext();
+  const { detailedPokemons, selectedType, isOpen, toggleDrawer } =
+    useOutletContext();
 
   // State to manage how many Pokémon to display
   const [displayCount, setDisplayCount] = useState(30);
@@ -25,7 +27,16 @@ const AllPokemon = () => {
   };
 
   return (
-    <div className="py-10">
+    <div className="py-10 relative">
+      <button
+        type="button"
+        onClick={toggleDrawer}
+        aria-controls="drawer-navigation"
+        aria-expanded={isOpen}
+        className="fixed left-10 top-50"
+      >
+        <img src={menuItem} alt="Pokeball" className="w-24 h-auto" />
+      </button>
       <img
         src={bg_Poke}
         alt="pokeball_grey"

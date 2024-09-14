@@ -1,25 +1,17 @@
 import logo from "../assets/images/pokemon_logo.png";
-import menuItem from "../assets/images/menu_icon.png";
 import { Link } from "react-router-dom";
-const Header = ({ username, toggleDrawer, isOpen, showHeader }) => {
+const Header = ({ username }) => {
   return (
     <div
       className="sticky top-0 z-10 bg-white p-5 w-full"
       style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}
     >
       <div className="flex items-center justify-between">
-        <div className="w-auto">
-          <button
-            type="button"
-            onClick={toggleDrawer}
-            aria-controls="drawer-navigation"
-            aria-expanded={isOpen}
-          >
-            <img src={menuItem} alt="Pokeball" className="w-24 h-auto" />
-          </button>
-        </div>
-        <div className="text-center">
-          <img src={logo} alt="Pokeball" className="w-2/4 h-auto" />
+        <div className="w-auto">{/* Empty div for spacing on the left */}</div>
+        <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <Link to="/home">
+            <img src={logo} alt="Pokeball" className="w-[250px] h-auto" />
+          </Link>
         </div>
         <div className="w-auto text-black text-right">
           <div>

@@ -92,6 +92,11 @@ const LeaderBoard = () => {
           ))}
         </tbody>
       </table>
+      <div className="flex justify-center mt-8">
+        <button className="text-center text-xl bg-red-600 hover:bg-black hover:shadow-lg text-white p-3 rounded-3xl">
+          Play again!
+        </button>
+      </div>
     </div>
   );
 };

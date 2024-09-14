@@ -70,13 +70,7 @@ const MainLayout = () => {
 
   return (
     <div className="min-h-screen">
-      {isHeaderVisible && (
-        <Header
-          username={username}
-          isOpen={isOpen}
-          toggleDrawer={toggleDrawer}
-        />
-      )}
+      {isHeaderVisible && <Header username={username} />}
       <Outlet
         context={{
           username,
@@ -91,6 +85,8 @@ const MainLayout = () => {
           showHeader,
           opponentPokemon,
           setOpponentPokemon,
+          isOpen,
+          toggleDrawer,
         }}
       />
       <Sidebar
