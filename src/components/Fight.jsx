@@ -1,20 +1,31 @@
-import { useOutletContext, useNavigate } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import battle_grounds from "../assets/images/battle_grounds.webp";
 import { useState, useEffect } from "react";
+import FightResultModal from "./FightResultModal";
 
 const Fight = () => {
-  const { playerPokemon, hideHeader, username } = useOutletContext(); // No need for detailedPokemons anymore
+  const { playerPokemon, hideHeader, username } = useOutletContext();
   const [opponentPokemon, setOpponentPokemon] = useState(null);
   const [counter, setCounter] = useState(3);
 
-  const navigate = useNavigate();
+  // States to manage health of player and opponent
+  const [playerHealth, setPlayerHealth] = useState(0);
+  const [opponentHealth, setOpponentHealth] = useState(0);
+  const [fightStarted, setFightStarted] = useState(false);
+  const [fightEnded, setFightEnded] = useState(false);
+  const [battleInterval, setBattleInterval] = useState(null);
+  const [winner, setWinner] = useState({});
 
-  // All hooks must be called before any early returns
+  //Modal
+  const [openModal, setOpenModal] = useState(false);
+  const toggleOn = () => {
+    setOpenModal(true);
+  };
+
   useEffect(() => {
     hideHeader();
   }, [hideHeader]);
 
-  // Retrieve opponentPokemon from localStorage when component mounts
   useEffect(() => {
     const storedOpponent = localStorage.getItem("opponentPokemon");
     if (storedOpponent) {
@@ -24,40 +35,107 @@ const Fight = () => {
     }
   }, []);
 
-  // Countdown logic with effect
   useEffect(() => {
     if (counter > 0) {
       const interval = setInterval(() => {
         setCounter((prevCounter) => (prevCounter > 1 ? prevCounter - 1 : 0));
       }, 1000);
 
-      // Cleanup interval when component unmounts or when counter is 0
       return () => clearInterval(interval);
+    } else if (counter === 0 && !fightStarted) {
+      setFightStarted(true);
     }
   }, [counter]);
 
-  if (!opponentPokemon || !playerPokemon || !playerPokemon.stats) {
-    return <div>Loading...</div>; // Ensure both player and opponent pokemon are loaded to get stats
+  useEffect(() => {
+    if (!opponentPokemon || !playerPokemon) return;
+
+    // Initialize health states
+    setPlayerHealth(playerPokemon.stats[0].base_stat);
+    setOpponentHealth(opponentPokemon.stats[0].base_stat);
+  }, [opponentPokemon, playerPokemon]);
+
+  //FIGHT SCENE
+  useEffect(() => {
+    if (fightStarted) {
+      // Calculate initial damage
+      const playerAttack = playerPokemon.stats[1].base_stat;
+      const opponentDefense = opponentPokemon.stats[2].base_stat;
+
+      const opponentAttack = opponentPokemon.stats[1].base_stat;
+      const playerDefense = playerPokemon.stats[2].base_stat;
+
+      const damageToOpponent = Math.max(playerAttack - opponentDefense, 0);
+      const damageToPlayer = Math.max(opponentAttack - playerDefense, 0);
+
+      // Clear previous interval if it exists
+      if (battleInterval) {
+        clearInterval(battleInterval);
+      }
+
+      // Create new interval for battle simulation
+      const interval = setInterval(() => {
+        setOpponentHealth((prev) => {
+          //Calculates the new health by subtracting the damage dealt to the opponent from the previous health. Ensures that the new health value doesn’t go below 0
+          const newHealth = Math.max(prev - damageToOpponent, 0);
+          //if health is zero or lower the battle gets stopped and the interval gets cleared
+          if (newHealth <= 0) {
+            clearInterval(interval);
+            setFightEnded(true);
+            console.log(
+              "You won:",
+              "Opponent HP:",
+              newHealth,
+              "Your HP:",
+              playerHealth
+            );
+          }
+          return newHealth;
+        });
+
+        setPlayerHealth((prev) => {
+          const newHealth = Math.max(prev - damageToPlayer, 0);
+          if (newHealth <= 0) {
+            clearInterval(interval);
+            setFightEnded(true);
+            console.log(
+              "You lost:",
+              "Opponent HP:",
+              opponentHealth,
+              "Your HP:",
+              newHealth
+            );
+          }
+          return newHealth;
+        });
+      }, 1000); // Update health every second
+
+      if (opponentHealth > playerHealth) {
+        setWinner(opponentPokemon);
+      } else {
+        setWinner(playerPokemon);
+      }
+      setBattleInterval(interval);
+
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [fightStarted, playerPokemon, opponentPokemon]);
+
+  useEffect(() => {
+    if (fightEnded) {
+      const timer = setTimeout(() => {
+        toggleOn(); // Open the modal afte 2 seconds
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [fightEnded]);
+
+  if (!opponentPokemon || !playerPokemon) {
+    return <div>Loading...</div>;
   }
-
-  //GAME LOGIC
-  const playerStats = {
-    hp: playerPokemon.stats[0].base_stat,
-    att: playerPokemon.stats[1].base_stat,
-    def: playerPokemon.stats[2].base_stat,
-    spAtt: playerPokemon.stats[3].base_stat,
-    spDef: playerPokemon.stats[4].base_stat,
-    speed: playerPokemon.stats[5].base_stat,
-  };
-
-  const opponentStats = {
-    hp: opponentPokemon.stats[0].base_stat,
-    att: opponentPokemon.stats[1].base_stat,
-    def: opponentPokemon.stats[2].base_stat,
-    spAtt: opponentPokemon.stats[3].base_stat,
-    spDef: opponentPokemon.stats[4].base_stat,
-    speed: opponentPokemon.stats[5].base_stat,
-  };
 
   return (
     <div className="w-full relative">
@@ -73,7 +151,7 @@ const Fight = () => {
       </span>
 
       <div>
-        <div className="flex flex-col items-start z-40 fixed -bottom-24 transform -translate-y-1/2 left-96">
+        <div className="flex flex-col items-start z-20 fixed -bottom-24 transform -translate-y-1/2 left-96">
           <img
             src={playerPokemon.sprites.other.showdown.back_default}
             alt={playerPokemon.name}
@@ -83,8 +161,8 @@ const Fight = () => {
             <div className="flex gap-2 items-center w-full justify-end">
               <progress
                 className="progress progress-error w-56 bg-white"
-                value={playerStats.hp}
-                max="100"
+                value={playerHealth}
+                max={playerPokemon.stats[0].base_stat}
               ></progress>
               <span className="font-medium text-white">HP</span>
             </div>
@@ -97,7 +175,7 @@ const Fight = () => {
           </div>
         </div>
 
-        <div className="flex flex-col items-start z-40 fixed top-96 transform -translate-y-1/2 right-[500px]">
+        <div className="flex flex-col items-end z-20 fixed top-96 transform -translate-y-1/2 right-[500px]">
           <img
             src={opponentPokemon.sprites.other.showdown.front_default}
             alt={opponentPokemon.name}
@@ -110,8 +188,8 @@ const Fight = () => {
               <span className="font-medium text-white">HP</span>
               <progress
                 className="progress progress-error w-56 bg-white"
-                value={opponentStats.hp}
-                max="100"
+                value={opponentHealth}
+                max={opponentPokemon.stats[0].base_stat}
               ></progress>
             </div>
             <h2 className="text-xl text-white font-medium capitalize">
@@ -120,6 +198,9 @@ const Fight = () => {
           </div>
         </div>
       </div>
+      {openModal && (
+        <FightResultModal winner={winner} playerPokemon={playerPokemon} />
+      )}
     </div>
   );
 };

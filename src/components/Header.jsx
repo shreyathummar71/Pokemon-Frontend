@@ -1,5 +1,6 @@
 import logo from "../assets/images/pokemon_logo.png";
 import menuItem from "../assets/images/menu_icon.png";
+import { Link } from "react-router-dom";
 const Header = ({ username, toggleDrawer, isOpen, showHeader }) => {
   return (
     <div

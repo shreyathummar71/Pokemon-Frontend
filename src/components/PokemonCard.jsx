@@ -3,6 +3,8 @@ import { useOutletContext, useNavigate } from "react-router-dom";
 
 function PokemonCard({ pokemon, onClose }) {
   const { setPlayerPokemon } = useOutletContext();
+  const audio = new Audio(pokemon.cries.latest);
+  console.log(audio);
   // State to toggle between general info and base stats
   const [activeTab, setActiveTab] = useState("about"); // Use 'about' as the default active tab
 
@@ -55,6 +57,7 @@ function PokemonCard({ pokemon, onClose }) {
 
   const navigate = useNavigate();
   const pokemonSelection = () => {
+    audio.play();
     setPlayerPokemon(pokemon);
     navigate("/home/face-off");
   };
@@ -89,7 +92,11 @@ function PokemonCard({ pokemon, onClose }) {
           </div>
           <div className="flex items-center justify-center ">
             <img
-              src={pokemon.sprites.other.dream_world.front_default}
+              src={
+                pokemon.sprites.other.dream_world.front_default
+                  ? pokemon.sprites.other.dream_world.front_default
+                  : pokemon.sprites.front_default
+              }
               alt={pokemon.name}
               className="-mb-10 relative z-10"
             />

@@ -75,7 +75,11 @@ const Opponents = () => {
       <div>
         <div className="flex flex-col items-center z-50 fixed top-1/2 transform -translate-y-1/2 left-32">
           <img
-            src={playerPokemon.sprites.other.dream_world.front_default}
+            src={
+              playerPokemon.sprites.other.dream_world.front_default
+                ? playerPokemon.sprites.other.dream_world.front_default
+                : playerPokemon.sprites.front_default
+            }
             alt={playerPokemon.name}
             className=" h-[450px] "
           />
@@ -97,7 +101,11 @@ const Opponents = () => {
 
         <div className="flex flex-col items-center z-50 fixed top-1/2 transform -translate-y-1/2 right-32">
           <img
-            src={opponentPokemon.sprites.other.dream_world.front_default}
+            src={
+              opponentPokemon.sprites.other.dream_world.front_default
+                ? opponentPokemon.sprites.other.dream_world.front_default
+                : opponentPokemon.sprites.front_default
+            }
             alt={opponentPokemon.name}
             className=" h-[450px] "
           />
