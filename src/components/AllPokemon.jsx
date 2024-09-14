@@ -1,17 +1,28 @@
 import PokemonListItem from "./PokemonListItem";
 import { useOutletContext } from "react-router-dom";
 import bg_Poke from "../assets/images/bg_pokeball.png";
-import Sidebar from "./Sidebar";
 import { useState } from "react";
 
 const AllPokemon = () => {
   const { detailedPokemons, selectedType } = useOutletContext();
 
+  // State to manage how many Pokémon to display
+  const [displayCount, setDisplayCount] = useState(30);
+
+  // Filter the Pokémon based on the selected type if there is one
   const filteredPokemons = detailedPokemons.filter((pokemon) =>
     selectedType
       ? pokemon.types.some((type) => type.type.name === selectedType)
       : true
   );
+
+  // Slice the Pokémon list based on the display count
+  const pokemonsToDisplay = filteredPokemons.slice(0, displayCount);
+
+  // Function to load more Pokémon
+  const handleLoadMore = () => {
+    setDisplayCount((prevCount) => prevCount + 30);
+  };
 
   return (
     <div className="py-10">
@@ -25,15 +36,22 @@ const AllPokemon = () => {
           {selectedType ? `Showing ${selectedType} Pokémon` : "All Pokémon"}
         </h1>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 my-10 mx-32 place-items-center z-10">
-        {selectedType
-          ? filteredPokemons.map((pokemon) => (
-              <PokemonListItem key={pokemon.id} pokemon={pokemon} />
-            ))
-          : detailedPokemons.map((pokemon) => (
-              <PokemonListItem key={pokemon.id} pokemon={pokemon} />
-            ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 my-10 mx-32 place-items-center z-10">
+        {pokemonsToDisplay.map((pokemon) => (
+          <PokemonListItem key={pokemon.id} pokemon={pokemon} />
+        ))}
       </div>
+      {/* Load More Button */}
+      {displayCount < filteredPokemons.length && (
+        <div className="flex justify-center">
+          <button
+            onClick={handleLoadMore}
+            className="px-6 py-2 bg-black text-white rounded-full hover:bg-red-600 transition"
+          >
+            Load More
+          </button>
+        </div>
+      )}
     </div>
   );
 };

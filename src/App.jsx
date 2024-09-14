@@ -10,6 +10,7 @@ import Homepage from "./components/Homepage";
 import AllPokemon from "./components/AllPokemon";
 import Opponents from "./components/Opponents";
 import Fight from "./components/Fight";
+import LeaderBoard from "./components/LeaderBoard";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -20,6 +21,7 @@ const App = () => {
           <Route index element={<AllPokemon />} />
           <Route path="face-off" element={<Opponents />} />
           <Route path="fight" element={<Fight />} />
+          <Route path="/home/leaderboard" element={<LeaderBoard />} />
         </Route>
       </>
     )

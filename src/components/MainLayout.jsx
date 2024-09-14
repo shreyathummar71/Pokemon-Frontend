@@ -30,7 +30,7 @@ const MainLayout = () => {
   useEffect(() => {
     const getPokemons = async () => {
       const res = await fetch(
-        "https://pokeapi.co/api/v2/pokemon/?offset=50&limit=50"
+        "https://pokeapi.co/api/v2/pokemon/?offset=500&limit=500"
       );
       const data = await res.json();
       setPokemons(data.results);
