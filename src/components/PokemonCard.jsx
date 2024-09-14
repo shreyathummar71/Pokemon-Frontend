@@ -4,7 +4,7 @@ import { useOutletContext, useNavigate } from "react-router-dom";
 function PokemonCard({ pokemon, onClose }) {
   const { setPlayerPokemon } = useOutletContext();
   const audio = new Audio(pokemon.cries.latest);
-  console.log(audio);
+
   // State to toggle between general info and base stats
   const [activeTab, setActiveTab] = useState("about"); // Use 'about' as the default active tab
 
