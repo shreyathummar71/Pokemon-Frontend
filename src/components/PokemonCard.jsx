@@ -66,7 +66,7 @@ function PokemonCard({ pokemon, onClose }) {
         className="relative rounded-xl shadow-lg w-5/12 max-w-sm"
         style={{ backgroundColor: bgColorClass }}
       >
-        <div className="absolute left-1/2 transform -translate-x-1/2 -top-10">
+        <div className="absolute left-1/2 transform -translate-x-1/2 -top-8">
           <img
             src="./src/assets/images/pokeball.png"
             alt="Pokeball"

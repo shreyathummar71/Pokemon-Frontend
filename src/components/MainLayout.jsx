@@ -10,6 +10,7 @@ const MainLayout = () => {
   const [detailedPokemons, setDetailedPokemons] = useState([]);
   const [selectedType, setSelectedType] = useState("");
   const [playerPokemon, setPlayerPokemon] = useState({});
+  const [opponentPokemon, setOpponentPokemon] = useState(null);
 
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
 
@@ -52,7 +53,20 @@ const MainLayout = () => {
     }
   }, [pokemons]);
 
-  console.log("Player picked:", playerPokemon);
+  //console.log("Player picked:", playerPokemon);
+
+  useEffect(() => {
+    const storedPlayerPokemon = localStorage.getItem("playerPokemon");
+    if (storedPlayerPokemon) {
+      setPlayerPokemon(JSON.parse(storedPlayerPokemon));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (playerPokemon && Object.keys(playerPokemon).length > 0) {
+      localStorage.setItem("playerPokemon", JSON.stringify(playerPokemon));
+    }
+  }, [playerPokemon]);
 
   return (
     <div className="min-h-screen">
@@ -75,6 +89,8 @@ const MainLayout = () => {
           setPlayerPokemon,
           hideHeader,
           showHeader,
+          opponentPokemon,
+          setOpponentPokemon,
         }}
       />
       <Sidebar
