@@ -7,6 +7,11 @@ const FightResultModal = ({ winner, playerPokemon }) => {
   const [won, setWon] = useState(false);
   const [gameResult, setGameResult] = useState("");
   const navigate = useNavigate();
+  const audio = new Audio(winner.cries.latest);
+
+  useEffect(() => {
+    audio.play();
+  }, []);
 
   useEffect(() => {
     if (winner === playerPokemon) {

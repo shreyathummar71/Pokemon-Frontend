@@ -68,6 +68,12 @@ const Fight = () => {
       const damageToOpponent = Math.max(playerAttack - opponentDefense, 10);
       const damageToPlayer = Math.max(opponentAttack - playerDefense, 10);
 
+      console.log("Player Attack:", playerAttack);
+      console.log("Opponent Defense:", opponentDefense);
+      console.log("Opponent Attack:", opponentAttack);
+      console.log("Player Defense:", playerDefense);
+      console.log("Damage to Opponent:", damageToOpponent);
+      console.log("Damage to Player:", damageToPlayer);
       // Clear previous interval if it exists
       if (battleInterval) {
         clearInterval(battleInterval);
@@ -81,7 +87,9 @@ const Fight = () => {
           //if health is zero or lower the battle gets stopped and the interval gets cleared
           if (newHealth <= 0) {
             clearInterval(interval);
+            console.log("Updated Opponent Health:", newHealth); // Debugging line
             setFightEnded(true);
+            setWinner(playerPokemon);
           }
           return newHealth;
         });
@@ -90,17 +98,14 @@ const Fight = () => {
           const newHealth = Math.max(prev - damageToPlayer, 0);
           if (newHealth <= 0) {
             clearInterval(interval);
+            console.log("Updated Player Health:", newHealth); // Debugging line
             setFightEnded(true);
+            setWinner(opponentPokemon);
           }
           return newHealth;
         });
       }, 1000); // Update health every second
 
-      if (opponentHealth > playerHealth) {
-        setWinner(opponentPokemon);
-      } else {
-        setWinner(playerPokemon);
-      }
       setBattleInterval(interval);
 
       return () => {
