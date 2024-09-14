@@ -7,7 +7,13 @@ const Header = ({ username }) => {
       style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}
     >
       <div className="flex items-center justify-between">
-        <div className="w-auto">{/* Empty div for spacing on the left */}</div>
+        <div className="w-auto self-start text-sm">
+          <Link to="/">
+            <span>Not </span>
+            <span className="font-semibold ">{username}</span>
+            <span> ?</span>
+          </Link>
+        </div>
         <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <Link to="/home">
             <img src={logo} alt="Pokeball" className="w-[250px] h-auto" />
