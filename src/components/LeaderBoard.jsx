@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import bg_Poke from "../assets/images/bg_pokeball.png";
 
 const LeaderBoard = () => {
+  const { username } = useOutletContext();
   const [leaderboardData, setLeaderboardData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  console.log(username);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -33,25 +35,29 @@ const LeaderBoard = () => {
   const determineRank = (battles, won, lost) => {
     const winRate = (won / battles) * 100;
 
-    if (winRate > 80) {
-      return "Champion";
-    } else if (winRate > 60) {
-      return "Grandmaster";
-    } else if (winRate > 50) {
-      return "Master";
-    } else if (winRate > 40) {
-      return "Diamond";
-    } else if (winRate > 30) {
-      return "Platinum";
-    } else if (winRate > 20) {
-      return "Gold";
-    } else if (winRate > 10) {
-      return "Silver";
+    if (battles >= 10) {
+      if (winRate > 80) {
+        return "Champion";
+      } else if (winRate > 60) {
+        return "Grandmaster";
+      } else if (winRate > 50) {
+        return "Master";
+      } else if (winRate > 40) {
+        return "Diamond";
+      } else if (winRate > 30) {
+        return "Platinum";
+      } else if (winRate > 20) {
+        return "Gold";
+      } else if (winRate > 10) {
+        return "Silver";
+      } else {
+        return "Bronze";
+      }
     } else {
-      return "Bronze";
+      // Fewer than 10 battles
+      return "Unranked";
     }
   };
-
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -80,20 +86,49 @@ const LeaderBoard = () => {
           </thead>
           <tbody>
             {leaderboardData.map((user) => (
-              <tr key={user._id}>
-                <td className="p-4 text-black border-b-4 border-white">
+              <tr
+                key={user._id}
+                className={` ${
+                  username === user.username ? "bg-red-400 " : null
+                } border-white`}
+              >
+                <td
+                  className={`p-4 text-black border-b-4 ${
+                    username === user.username
+                      ? "font-extrabold border-white"
+                      : "border-white"
+                  }`}
+                >
                   {user.username}
                 </td>
-                <td className="p-4 text-black border-b-4 border-white">
+                <td
+                  className={`p-4 text-black border-b-4 ${
+                    username === user.username
+                      ? "font-extrabold"
+                      : "font-normal text-black"
+                  } border-white`}
+                >
                   {user.battles}
                 </td>
-                <td className="p-4 text-black border-b-4 border-white">
+                <td
+                  className={`p-4 text-black border-b-4 ${
+                    username === user.username ? "font-bold" : "font-normal"
+                  } border-white`}
+                >
                   {user.won}
                 </td>
-                <td className="p-4 text-black border-b-4 border-white">
+                <td
+                  className={`p-4 text-black border-b-4 ${
+                    username === user.username ? "font-bold" : "font-normal"
+                  } border-white`}
+                >
                   {user.lost}
                 </td>
-                <td className="p-4 text-black font-semibold border-b-4 border-white">
+                <td
+                  className={`p-4 text-black border-b-4 ${
+                    username === user.username ? "font-bold" : "font-normal"
+                  } border-white`}
+                >
                   {user.rank}
                 </td>
               </tr>
