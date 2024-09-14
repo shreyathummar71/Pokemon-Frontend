@@ -8,6 +8,8 @@ const MainLayout = () => {
   const [username, setUsername] = useState("");
   const [pokemons, setPokemons] = useState([]);
   const [detailedPokemons, setDetailedPokemons] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
+
   const [selectedType, setSelectedType] = useState("");
   const [playerPokemon, setPlayerPokemon] = useState({});
   const [opponentPokemon, setOpponentPokemon] = useState(null);
@@ -28,15 +30,21 @@ const MainLayout = () => {
   }, []);
 
   useEffect(() => {
-    const getPokemons = async () => {
-      const res = await fetch(
-        "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
-      );
-      const data = await res.json();
-      setPokemons(data.results);
-    };
+    try {
+      const getPokemons = async () => {
+        const res = await fetch(
+          "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
+        );
+        const data = await res.json();
+        setPokemons(data.results);
+      };
 
-    getPokemons();
+      getPokemons();
+    } catch (error) {
+      console.error("Error fetching Pokémon data:", error);
+    } finally {
+      setLoading(false); // Data fetching is done
+    }
   }, []);
 
   useEffect(() => {
@@ -87,6 +95,7 @@ const MainLayout = () => {
           setOpponentPokemon,
           isOpen,
           toggleDrawer,
+          loading,
         }}
       />
       <Sidebar

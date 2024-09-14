@@ -1,12 +1,36 @@
 import PokemonListItem from "./PokemonListItem";
 import { useOutletContext } from "react-router-dom";
 import bg_Poke from "../assets/images/bg_pokeball.png";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import menuItem from "../assets/images/menu_icon.png";
 
 const AllPokemon = () => {
-  const { detailedPokemons, selectedType, isOpen, toggleDrawer } =
+  const { detailedPokemons, selectedType, isOpen, toggleDrawer, loading } =
     useOutletContext();
+
+  //SCROLL TO TOP
+  const toTopButtonRef = useRef(null);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 500) {
+        toTopButtonRef.current.classList.remove("hidden");
+      } else {
+        toTopButtonRef.current.classList.add("hidden");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  const goToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   //SEARCH FUNCTION
   const [searchedPokemon, setSearchedPokemon] = useState("");
@@ -17,6 +41,7 @@ const AllPokemon = () => {
   );
   console.log(searchedPokemons);
 
+  //LOAD MORE FUNCTION
   // State to manage how many Pokémon to display
   const [displayCount, setDisplayCount] = useState(30);
 
@@ -67,17 +92,27 @@ const AllPokemon = () => {
           {selectedType ? `Showing ${selectedType} Pokémon` : "All Pokémon"}
         </h1>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 my-10 mx-32 place-items-center z-10">
-        {searchedPokemon
-          ? searchedPokemons.map((pokemon) => (
-              <PokemonListItem key={pokemon.id} pokemon={pokemon} />
-            ))
-          : pokemonsToDisplay.map((pokemon) => (
-              <PokemonListItem key={pokemon.id} pokemon={pokemon} />
-            ))}
-      </div>
+      {loading ? (
+        <div className="flex justify-center items-center h-full py-20">
+          <span className="loading loading-dots loading-lg"></span>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 my-10 mx-32 place-items-center z-10">
+          {searchedPokemon
+            ? searchedPokemons
+                .slice(0, displayCount)
+                .map((pokemon) => (
+                  <PokemonListItem key={pokemon.id} pokemon={pokemon} />
+                ))
+            : pokemonsToDisplay
+                .slice(0, displayCount)
+                .map((pokemon) => (
+                  <PokemonListItem key={pokemon.id} pokemon={pokemon} />
+                ))}
+        </div>
+      )}
       {/* Load More Button */}
-      {displayCount < filteredPokemons.length && (
+      {!loading && displayCount < filteredPokemons.length && (
         <div className="flex justify-center">
           <button
             onClick={handleLoadMore}
@@ -87,7 +122,13 @@ const AllPokemon = () => {
           </button>
         </div>
       )}
-      <button className="">Top</button>
+      <button
+        ref={toTopButtonRef}
+        onClick={goToTop}
+        className="fixed bottom-10 right-10 px-4 py-2 bg-black text-white rounded-full hidden hover:bg-red-600 transition"
+      >
+        Top
+      </button>
     </div>
   );
 };
