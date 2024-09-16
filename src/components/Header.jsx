@@ -7,7 +7,7 @@ const Header = ({ username }) => {
       style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}
     >
       <div className="flex items-center justify-between">
-        <div className="w-auto self-start text-sm">
+        <div className="w-auto self-start text-sm pt-7 text-black">
           <Link to="/">
             <span>Not </span>
             <span className="font-semibold ">{username}</span>
@@ -21,7 +21,7 @@ const Header = ({ username }) => {
         </div>
         <div className="w-auto text-black text-right">
           <div>
-            Hello, trainer <span className="font-bold">{username}</span>
+            Hello, trainer <span className="font-bold text-lg">{username}</span>
           </div>
           <div className="mt-2">
             <Link
