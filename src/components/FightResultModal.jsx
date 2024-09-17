@@ -35,11 +35,14 @@ const FightResultModal = ({ winner, playerPokemon }) => {
   useEffect(() => {
     const sendResults = async () => {
       try {
-        const response = await fetch("http://localhost:8081/leaderboard", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(resBody),
-        });
+        const response = await fetch(
+          "https://pokemon-api-2j5r.onrender.com/leaderboard",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(resBody),
+          }
+        );
         if (!response.ok) {
           throw new Error("Failed to post data");
         }

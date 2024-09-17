@@ -12,7 +12,9 @@ const LeaderBoard = () => {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const response = await fetch("http://localhost:8081/leaderboard");
+        const response = await fetch(
+          "https://pokemon-api-2j5r.onrender.com/leaderboard"
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch leaderboard data");
         }
