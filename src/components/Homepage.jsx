@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Outlet, useOutletContext } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import bg from "../assets/images/home-bg.jpg";
 
 function Homepage() {
   // State to store the user's name
@@ -32,7 +33,7 @@ function Homepage() {
         className={`fixed inset-0 bg-cover bg-center ${
           !showPopup ? "hidden" : "block"
         } transition-opacity duration-300`}
-        style={{ backgroundImage: `url('./src/assets/images/home-bg.jpg')` }}
+        style={{ backgroundImage: `url(${bg})` }}
       ></div>
 
       {/* <img src="./assets/images/home-bg"></img> */}
