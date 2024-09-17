@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Outlet, useOutletContext } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import bg from "../assets/images/home-bg.jpg";
+import pokeball from "../assets/images/pokeball.png";
 
 function Homepage() {
   // State to store the user's name
@@ -45,11 +46,7 @@ function Homepage() {
             className="bg-white p-8 relative rounded shadow-lg text-center"
           >
             <div className="absolute left-1/2 transform -translate-x-1/2 -top-10">
-              <img
-                src="./src/assets/images/pokeball.png"
-                alt="Pokeball"
-                className="w-16 h-16"
-              />
+              <img src={pokeball} alt="Pokeball" className="w-16 h-16" />
             </div>
             <h2 className="text-2xl text-black text-center font-semibold">
               Welcome to your epic{" "}
